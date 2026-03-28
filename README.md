@@ -2,6 +2,10 @@
 
 # Part 1: STM32 High-Speed ADC to UART Data Streamer
 
+## Components: 
+1. STM32F401CCU6 Development Board (WeAct Studio Blackpill)
+2. Jumper cables
+
 ## 📌 Overview
 This project is an embedded C application built for an STM32 microcontroller using the Hardware Abstraction Layer (HAL). It is designed to continuously sample 9 channels of analog data, package the readings with a hardware-calculated checksum, and transmit the data stream reliably over UART every 10 milliseconds. 
 
@@ -40,6 +44,7 @@ The main program relies on a non-blocking architecture driven by a 10ms timer in
 ## 📦 Data Packet Structure
 Each packet transmitted over UART is exactly **22 bytes** long and follows this specific structure:
 
+# Part 2: 
 | Byte Index | Size | Description |
 | :--- | :--- | :--- |
 | `0` | 1 Byte | **Sync Byte:** Hardcoded to `0xAA` to denote the start of a packet. |
