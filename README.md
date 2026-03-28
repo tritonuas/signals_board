@@ -6,20 +6,20 @@
 * [Part 1: STM32 High-Speed ADC to UART Data Streamer](#part-1-stm32-high-speed-adc-to-uart-data-streamer)
   * [Components](#components)
   * [Overview](#overview)
-  * [⚙️ Hardware Peripherals Used](#️-hardware-peripherals-used)
-  * [🔄 System Architecture & Execution Flow](#-system-architecture--execution-flow)
+  * [Hardware Peripherals Used](#️-hardware-peripherals-used)
+  * [System Architecture & Execution Flow](#-system-architecture--execution-flow)
     * [1. Initialization](#1-initialization)
     * [2. The 10ms Control Loop](#2-the-10ms-control-loop)
-  * [📦 Data Packet Structure](#-data-packet-structure)
+  * [Data Packet Structure](#-data-packet-structure)
 * [Part 2: STM32 UART-to-USB CDC Bridge & PWM Controller](#part-2-stm32-uart-to-usb-cdc-bridge--pwm-controller)
-  * [📌 Overview](#-overview)
-  * [⚙️ Hardware Peripherals Used](#️-hardware-peripherals-used-1)
-  * [🔄 System Architecture & Execution Flow](#-system-architecture--execution-flow-1)
+  * [Overview](#-overview)
+  * [Hardware Peripherals Used](#️-hardware-peripherals-used-1)
+  * [System Architecture & Execution Flow](#-system-architecture--execution-flow-1)
     * [1. Startup & Waveform Generation](#1-startup--waveform-generation)
     * [2. PWM & DMA Initialization](#2-pwm--dma-initialization)
     * [3. The "Ping-Pong" UART-to-USB Pipeline](#3-the-ping-pong-uart-to-usb-pipeline)
     * [4. The Main Loop](#4-the-main-loop)
-  * [📦 Data Pipeline Structure](#-data-pipeline-structure)
+  * [Data Pipeline Structure](#-data-pipeline-structure)
 
 # Part 1: STM32 High-Speed ADC to UART Data Streamer
 
@@ -34,7 +34,7 @@ To maximize CPU efficiency, the system heavily relies on **Direct Memory Access 
 
 ---
 
-## ⚙️ Hardware Peripherals Used
+## Hardware Peripherals Used
 * **ADC1 (Analog to Digital Converter):** Configured for 12-bit continuous conversion. It samples analog inputs and directly writes the results to memory via DMA.
 * **DMA (Direct Memory Access):** * *ADC to Memory:* Offloads the CPU by automatically transferring ADC readings into the `raw_adc` array.
     * *Memory to UART:* Handles sending the structured data payload over UART without blocking the main program loop.
@@ -45,7 +45,7 @@ To maximize CPU efficiency, the system heavily relies on **Direct Memory Access 
 
 ---
 
-## 🔄 System Architecture & Execution Flow
+## System Architecture & Execution Flow
 
 ### 1. Initialization
 Upon startup, the system initializes the clock to use the High-Speed Internal (HSI) oscillator. It then initializes all GPIOs, the DMA controller, and the required peripherals (ADC, Timer, UART, and CRC). 
@@ -62,7 +62,7 @@ The main program relies on a non-blocking architecture driven by a 10ms timer in
 
 ---
 
-## 📦 Data Packet Structure
+## Data Packet Structure
 Each packet transmitted over UART is exactly **22 bytes** long and follows this specific structure:
 
 
@@ -75,14 +75,14 @@ Each packet transmitted over UART is exactly **22 bytes** long and follows this 
 
 # Part 2: STM32 UART-to-USB CDC Bridge & PWM Controller
 
-## 📌 Overview
+## Overview
 This project is an embedded C application built for an STM32 microcontroller. It serves a dual purpose: 
 1. **High-Speed Data Bridge:** It acts as a transparent, non-blocking bridge that receives 22-byte data payloads via UART and immediately forwards them to a computer over USB using the Communication Device Class (CDC / Virtual COM Port).
 2. **Advanced Hardware PWM Generation:** It concurrently drives multiple PWM output channels, including a smooth, DMA-driven quadratic "breathing" LED effect, entirely offloaded from the main CPU loop.
 
 ---
 
-## ⚙️ Hardware Peripherals Used
+## Hardware Peripherals Used
 * **USART1 & USB (CDC):** * USART1 is configured at **115200 baud** to receive incoming data streams.
     * The USB peripheral is configured as a Virtual COM port to push that data to a connected host machine.
 * **DMA (Direct Memory Access):** * *UART Rx:* Catches incoming serial data into memory without CPU intervention.
@@ -93,7 +93,7 @@ This project is an embedded C application built for an STM32 microcontroller. It
 
 ---
 
-## 🔄 System Architecture & Execution Flow
+## System Architecture & Execution Flow
 
 ### 1. Startup & Waveform Generation
 Before entering the main loop, the MCU pre-calculates a 2000-step quadratic curve (`breath_table`). 
