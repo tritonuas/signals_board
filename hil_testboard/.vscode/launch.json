@@ -1,0 +1,33 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug STM32 (OpenOCD)",
+      "type": "cortex-debug",
+      "request": "launch",
+
+      "servertype": "openocd",
+
+      "cwd": "${workspaceFolder}",
+
+      "executable": "${workspaceFolder}/build/Debug/hil_testboard.elf",
+
+      "configFiles": [
+        "interface/stlink.cfg",
+        "target/stm32f4x.cfg"
+      ],
+
+      "searchDir": [
+        "C:/Users/akulk/AppData/Roaming/xPacks/@xpack-dev-tools/openocd/0.12.0-7.1/.content/share/openocd/scripts"
+      ],
+
+      "runToEntryPoint": "main",
+
+      "svdFile": "${workspaceFolder}/STM32F401.svd",
+
+      "preLaunchCommands": [
+        "monitor reset halt"
+      ]
+    }
+  ]
+}
